@@ -1,5 +1,5 @@
 using System.Collections;
-using Unity.Android.Gradle.Manifest;
+using System;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.SceneManagement;
@@ -36,20 +36,6 @@ public class Basic2DMovement : MonoBehaviour
     private float originalCoyoteTimer;
     bool coyoteTime = true;
 
-    //[Header("Dash Variables")]
-    //public float dashLength;
-    //public float dashDistance;
-    //public bool canDash = true;
-    //public bool isDashing = false;
-
-    //private IEnumerator dashCorotine;
-
-    //[Header("Energy Settings")]
-    //public int energyAmount = 3;
-    //public bool hasEnergy;
-
-    
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -59,20 +45,16 @@ public class Basic2DMovement : MonoBehaviour
         originalGravityScale = rb.gravityScale;
     }
 
-    // Update is called once per frame
     void Update()
     {
         //Basic Movement Logic
         float horizontalAxis = Input.GetAxis("Horizontal");
         float verticalAxis = Input.GetAxis("Vertical");
         
-        
-        
-            rb.linearVelocity = new Vector2(horizontalAxis * moveSpeed, rb.linearVelocity.y);
-            //Jump Logic
-            CheckIfJumpIsBuffered();
-            CheckIfCoyoteTime();
-        
+        rb.linearVelocity = new Vector2(horizontalAxis * moveSpeed, rb.linearVelocity.y);
+        //Jump Logic
+        CheckIfJumpIsBuffered();
+        CheckIfCoyoteTime();
         
         yVelocity = rb.linearVelocity.y;
         
@@ -90,17 +72,6 @@ public class Basic2DMovement : MonoBehaviour
             hasJumped = true;
         }
 
-        // Energy Jumps
-
-        //if (Input.GetKeyDown(KeyCode.Space))
-        //{
-        //    if ((energyAmount >= 1 && fastFallActive) || (energyAmount >= 1 && !isGrounded && !hasJumped))
-        //    {
-        //        rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpHeight);
-        //        energyAmount -= 1;
-        //    }
-        //}
-
         if (hasJumped && isGrounded)
         {
             hasJumped = false;
@@ -116,32 +87,8 @@ public class Basic2DMovement : MonoBehaviour
 
         // Dash
 
-        //if (Input.GetKeyDown(KeyCode.LeftShift) && canDash && energyAmount >= 1)
-        //{
-        //    print("Dash Activated!");
-        //    dashCorotine = TimedDash(dashLength);
-        //    StartCoroutine(dashCorotine);
-        //    energyAmount -= 1;
-        //}
-
         FastFall();
     }
-
-    //private IEnumerator TimedDash(float dashTime)
-    //{
-    //    isDashing = true;
-    //    canDash = false;
-    //    float horizontalAxis = Input.GetAxisRaw("Horizontal");
-
-    //    rb.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
-    //    rb.linearVelocity = new Vector2(dashDistance * horizontalAxis, rb.linearVelocityY);
-
-    //    yield return new WaitForSeconds(dashTime);
-
-    //    rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-    //    isDashing = false;
-    //    canDash = true;
-    //}
 
     void FastFall()
     {
@@ -199,11 +146,6 @@ public class Basic2DMovement : MonoBehaviour
             rb.gravityScale = originalGravityScale;
             fastFallActive = false;
         }
-
-        //if (other.CompareTag("Energy"))
-        //{
-            //energyAmount = 3;
-        //}
     }
 
     private void OnTriggerExit2D(Collider2D other)
