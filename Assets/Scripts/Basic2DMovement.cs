@@ -1,9 +1,10 @@
-using System.Collections;
 using System;
-using UnityEngine;
-using UnityEngine.Serialization;
-using UnityEngine.SceneManagement;
+using System.Collections;
 using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class Basic2DMovement : MonoBehaviour
 {
@@ -36,6 +37,8 @@ public class Basic2DMovement : MonoBehaviour
     private float originalCoyoteTimer;
     bool coyoteTime = true;
 
+    public Transform startingPosition;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -43,6 +46,7 @@ public class Basic2DMovement : MonoBehaviour
         originalJumpBufferTimer = jumpBufferTimer;
         originalCoyoteTimer = coyoteTimer;
         originalGravityScale = rb.gravityScale;
+        transform.position = startingPosition.position;
     }
 
     void Update()
@@ -154,5 +158,10 @@ public class Basic2DMovement : MonoBehaviour
         {
             isGrounded = false;
         }
+    }
+
+    public void ResetPosition(InputAction.CallbackContext context)
+    {
+        transform.position = startingPosition.position;
     }
 }
